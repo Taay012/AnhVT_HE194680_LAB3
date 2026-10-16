@@ -1,70 +1,47 @@
-# Getting Started with Create React App
+# Lab 3 HE194680
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Ứng dụng dùng đúng dữ liệu products.js: danh sách 15 sản phẩm, tìm theo tên, lọc danh mục, sắp xếp giá, phân trang và Router.
 
-## Available Scripts
+## Chạy
 
-In the project directory, you can run:
+```powershell
+npm install
+npm start
+```
 
-### `npm start`
+Mặc định Create React App dùng http://localhost:3000. Build: `npm run build`. Test: `npm test -- --watchAll=false`.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Cấu trúc
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- `src/componets`: Header, SearchBar, CategoryFilter, ProductItem, Pagination. Giữ đúng tên thư mục đang có trong dự án của bạn; mọi import đã khớp tên này.
+- `src/data/products.js`: dữ liệu gốc, không thay đổi.
+- `src/pages/Home.js`: trang chủ với link danh sách.
+- `src/pages/ProductList.js`: đọc query, tìm/lọc/sort, tính trang và truyền props xuống component.
+- `src/pages/ProductDetail.js`: useParams lấy ID, find sản phẩm, hiển thị chi tiết.
+- `src/pages/NotFound.js`: URL không tồn tại.
+- `src/App.js`: BrowserRouter, Header và Routes.
 
-### `npm test`
+## URL
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- `/`: Home.
+- `/products`: danh sách, 3 sản phẩm mỗi trang.
+- `/products?keywords=samsung&sort=price-asc&page=1`: tìm/sort/trang lưu trên URL.
+- `/products?category=Laptop&sort=price-asc&page=2`: chỉ Dell XPS 13.
+- `/products/4`: chi tiết Dell XPS 13.
 
-### `npm run build`
+Query được giữ trong link chi tiết và Back to products, nên quay lại đúng điều kiện và trang. Nhập tìm kiếm dùng replace để không tạo lịch sử cho từng ký tự; nút trang dùng lịch sử bình thường. Reload URL vẫn giữ các điều kiện.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## TODO ĐỔI khi áp dụng đề khác
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. Dữ liệu: `src/data/products.js`.
+2. Số mục mỗi trang: `PAGE_SIZE` trong ProductList.js.
+3. Tìm/lọc/sort: `useMemo` trong ProductList.js.
+4. Trường hiển thị: ProductItem.js và ProductDetail.js.
+5. URL: App.js và các Link liên quan.
+6. Tiêu đề app: Header.js.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Các TODO là chỗ tùy chỉnh, không phải logic còn trống. Ctrl+Shift+F tìm `TODO ĐỔI`.
 
-### `npm run eject`
+Luồng chính: products -> tìm tên -> lọc category -> sort bản sao -> slice -> map hiển thị. Số tổng hiện là tổng kết quả sau tìm/lọc, không chỉ số mục của trang hiện tại.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Giữ phạm vi cấu trúc Lab 3 này: không thêm trang About, giỏ hàng, CRUD, yêu thích hoặc theme. Dữ liệu giá được hiển thị bằng toLocaleString('vi-VN') và VND.
